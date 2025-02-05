@@ -20,6 +20,7 @@ public class Main {
             System.out.println("3. Abrir Steam");
             System.out.println("4. Cerrar Discord y Steam");
             System.out.println("5. Optimizar Equipo");
+            System.out.println("6. Obtener Procesos");
             System.out.println("0. Salir");
             System.out.print("Elige una opción: ");
             option = scanner.nextInt();
@@ -36,13 +37,13 @@ public class Main {
                     openApplication("Steam", "C:\\Program Files (x86)\\Steam\\steam.exe");
                     break;
                 case 4:
-                    closeApplications();
+                    closeSteamyDiscord();
                     break;
                 case 5:
                     optimizarEquipo();
                     break;
                 case 6:
-                    
+                    obtenerDatosDeProcesos();
                     break;
                 case 0:
                     System.out.println("Saliendo del programa...");
@@ -53,11 +54,6 @@ public class Main {
         } while (option != 0);
 
         scanner.close();
-    }
-
-    private static void generarInformeUso() {
-
-
     }
 
     // Método para comprobar el ping a un servidor
@@ -93,7 +89,7 @@ public class Main {
     }
 
     // Método para cerrar Discord y Steam
-    private static void closeApplications() {
+    private static void closeSteamyDiscord() {
         try {
             System.out.println("Cerrando Discord y Steam...");
             // Cerrar Discord
@@ -118,15 +114,6 @@ public class Main {
                 "riotclient.exe", "notion.exe", "zoom.exe", "skype.exe"
         );
 
-        Scanner scanner = new Scanner(System.in);
-        int contador = 1;
-
-        System.out.println("Procesos en ejecución:");
-        for (Proceso process : processes) {
-            System.out.println(contador + ". " + process.getNombre() + " - Memoria usada: " + process.getMemoria() + " KB");
-            contador++;
-        }
-
         System.out.println("\nCerrando procesos innecesarios...\n");
 
         for (Proceso process : processes) {
@@ -137,6 +124,18 @@ public class Main {
         }
 
         System.out.println("\nOptimización finalizada.");
+    }
+
+    private static void obtenerDatosDeProcesos() throws IOException {
+        List<Proceso> processes = getRunningProcesses();
+        int contador = 1;
+
+        System.out.println("Procesos en ejecución:");
+        for (Proceso process : processes) {
+            System.out.println(contador + ". " + process.getNombre() + " - Memoria usada: " + process.getMemoria());
+            contador++;
+        }
+
     }
 
     private static void closeProcess(String processName) throws IOException, IOException {
